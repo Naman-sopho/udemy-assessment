@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class Quiz extends Component {
+    componentWillMount () {
+        axios.get('questions').then( (response) => {
+            console.log(response);
+        });
+    };
+
     render() {
         return(
             <div>
