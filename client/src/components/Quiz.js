@@ -1,19 +1,34 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class Quiz extends Component {
     componentWillMount () {
+        this.setState({
+            loading: true
+        });
+
         axios.get('questions').then( (response) => {
-            console.log(response);
+            this.setState({
+                questions: response.data
+            }, function(){
+                this.setState({
+                    loading: false
+                });
+            });
         });
     };
 
     render() {
         return(
             <div>
-                <h4>
-                    Hey Quiz :)
-                </h4>
+                {   this.state.loading ? 
+                    <CircularProgress/> 
+                    :
+                    this.state.questions.map(question => (
+                        <p>{question.question}</p>
+                    ))
+                }
             </div>
         );
     };
