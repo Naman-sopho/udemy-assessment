@@ -21,7 +21,7 @@ class Question(db.Model):
     answer = db.Column(db.String(1))
 
     @property
-    def serialize(self):
+    def serialize_question(self):
         return {
             'id': self.id,
             'question': self.question,
@@ -29,12 +29,14 @@ class Question(db.Model):
             'b': self.b,
             'c': self.c,
             'd': self.d,
+        }
+    
+    @property
+    def serialize_answer(self):
+        return {
+            'id': self.id,
             'answer': self.answer
         }
-
-    @property
-    def serialize_list(self):
-        return [item.serialize for item in self.many2many]
 
 db.create_all()
 
@@ -51,8 +53,12 @@ def root():
 @app.route('/questions')
 def getQuestions():
     questions = Question.query.all()
-    print(questions)
-    return jsonify([question.serialize for question in questions]), 200
+    return jsonify([question.serialize_question for question in questions]), 200
+
+@app.route('/answers')
+def getAnswers():
+    questions = Question.query.all()
+    return jsonify([question.serialize_answer for question in questions]), 200
 
 if __name__ == '__main__':
     app.run()
