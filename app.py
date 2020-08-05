@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 import os
 
@@ -18,7 +18,7 @@ class Question(db.Model):
     b = db.Column(db.Text)
     c = db.Column(db.Text)
     d = db.Column(db.Text)
-    answer = db.Column(db.String(1))
+    answer = db.Column(db.Integer)
 
     @property
     def serialize_question(self):
@@ -41,7 +41,15 @@ class Question(db.Model):
 db.create_all()
 
 #populate DB
-q = Question(question="What is your name?", a="AA", b="BB", c="CC", d="d", answer="a")
+q = Question(question="What is your name?", a="AA", b="BB", c="CC", d="d", answer=0)
+db.session.add(q)
+db.session.commit()
+
+q = Question(question="What is your n?", a="AA", b="BB", c="CC", d="d", answer=0)
+db.session.add(q)
+db.session.commit()
+
+q = Question(question="What is your a?", a="AA", b="BB", c="CC", d="d", answer=0)
 db.session.add(q)
 db.session.commit()
 
@@ -55,10 +63,20 @@ def getQuestions():
     questions = Question.query.all()
     return jsonify([question.serialize_question for question in questions]), 200
 
-@app.route('/answers')
+@app.route('/check_answers', methods=['POST'])
 def getAnswers():
+    req_data = request.get_json()['answers']
+    print(req_data)
     questions = Question.query.all()
-    return jsonify([question.serialize_answer for question in questions]), 200
+
+    score = 0
+    for question in questions:
+        ans = req_data[str(question.id)]
+
+        if ans == question.answer:
+            score += 1
+
+    return jsonify(score), 200
 
 if __name__ == '__main__':
     app.run()

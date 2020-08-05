@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Questions from './Questions';
+import { Dialog, DialogTitle, DialogContent, Box, Typography } from '@material-ui/core';
 
 class Quiz extends Component {
     componentWillMount () {
         this.setState({
-            loading: true
+            loading: true,
+            score: 0,
+            questions: []
         });
 
         axios.get('questions').then( (response) => {
@@ -20,14 +23,37 @@ class Quiz extends Component {
         });
     };
 
+    openScoreModal(score) {
+        this.setState({
+            score,
+            showScore: true
+        });
+    }
     render() {
         return(
             <div>
                 {   this.state.loading ? 
                     <CircularProgress/> 
                     :
-                    <Questions questions={this.state.questions}/>
+                    <Questions questions={this.state.questions} openScoreModal={(score) => this.openScoreModal(score)}/>
                 }
+                <Dialog 
+                    disableBackdropClick 
+                    disableEscapeKeyDown
+                    open={this.state.showScore}
+                >
+                    <DialogTitle>Score</DialogTitle>
+                    <DialogContent>
+                        <Box position="relative" display="inline-flex">
+                            <CircularProgress variant="static" value={Math.round(this.state.score/this.state.questions.length * 100)}/>
+                            <Box top={0} left={0} bottom={0} right={0} position="absolute" display="flex" alignItems="center" justifyContent="center">
+                                <Typography variant="caption" component="div" color="textSecondary">
+                                    {`${this.state.score} / ${this.state.questions.length}`}
+                                </Typography>
+                            </Box>
+                        </Box>
+                    </DialogContent>
+                </Dialog>
             </div>
         );
     };
