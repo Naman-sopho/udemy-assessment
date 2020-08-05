@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Questions from './Questions';
 
 class Quiz extends Component {
     componentWillMount () {
@@ -25,9 +26,7 @@ class Quiz extends Component {
                 {   this.state.loading ? 
                     <CircularProgress/> 
                     :
-                    this.state.questions.map(question => (
-                        <p>{question.question}</p>
-                    ))
+                    <Questions questions={this.state.questions}/>
                 }
             </div>
         );
