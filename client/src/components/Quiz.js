@@ -3,6 +3,7 @@ import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Questions from './Questions';
 import { Dialog, DialogTitle, DialogContent, Box, Typography } from '@material-ui/core';
+import '../App.css'
 
 class Quiz extends Component {
     componentWillMount () {
@@ -31,11 +32,14 @@ class Quiz extends Component {
     }
     render() {
         return(
-            <div>
+            <div className="quiz">
+                 <Typography gutterBottom variant="h3" color="white">Udemy Coding Challenge Quiz</Typography>
                 {   this.state.loading ? 
                     <CircularProgress/> 
                     :
-                    <Questions questions={this.state.questions} openScoreModal={(score) => this.openScoreModal(score)}/>
+                    <div>
+                        <Questions questions={this.state.questions} openScoreModal={(score) => this.openScoreModal(score)}/>
+                    </div>
                 }
                 <Dialog 
                     disableBackdropClick 

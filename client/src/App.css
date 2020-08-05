@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .App-logo {
@@ -26,6 +27,12 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.quiz {
+  height: 80%;
+  width: 80%;
+  margin: 20px, 20px, 20px, 20px;
 }
 
 @keyframes App-logo-spin {

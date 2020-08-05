@@ -100,11 +100,13 @@ class Questions extends Component {
             <Stepper activeStep={activeStep} orientation="vertical">
                 {questions.map((question, index) => (
                     <Step key={`q${index}`}>
-                        <StepLabel onClick={() => this.setActiveStep(index)}>{`Question ${index+1}`}</StepLabel>
+                        <StepLabel onClick={() => this.setActiveStep(index)}>
+                            <Typography style={{"font-weight": "bold"}}align="left">{`Question ${index+1}`}</Typography>
+                        </StepLabel>
                         <StepContent>
-                            <Card elevation={2}>
-                                <CardHeader title={question.question}/>
+                            <Card elevation={3}>
                                 <CardContent>
+                                <Typography gutterBottom variant="h5" component="h2" align="left">{question.question}</Typography>
                                     <List>
                                         <ListItem key={`a${index}`} button onClick={() => this.handleToggle(index, 0)}>
                                             <ListItemIcon>
