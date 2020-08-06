@@ -31,8 +31,13 @@
 
 .quiz {
   height: 80%;
-  width: 80%;
+  width: 85%;
   margin: 20px, 20px, 20px, 20px;
+}
+
+.option-chip {
+  width: 100%;
+  padding: 30px 2px 30px !important;
 }
 
 @keyframes App-logo-spin {

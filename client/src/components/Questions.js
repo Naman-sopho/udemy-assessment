@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {Card, CardContent, StepContent, StepLabel, Step, Stepper, Typography, ListItem, List, 
-        ListItemIcon, Checkbox, ListItemText, CardActions, Fab, Snackbar } from '@material-ui/core';
+        ListItemIcon, Checkbox, ListItemText, CardActions, Fab, Paper, Avatar, Chip, Tooltip } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import CheckIcon from '@material-ui/icons/Check';
+import '../App.css';
 
 class Questions extends Component {
     constructor(props) {
@@ -56,63 +56,73 @@ class Questions extends Component {
         const questions = this.props.questions;
         const { activeStep, answers } = this.state;
         return(
+            <Paper elevation={3} square={false} variant="outlined">
             <Stepper activeStep={activeStep} orientation="vertical">
                 {questions.map((question, index) => (
                     <Step key={`q${index}`}>
                         <StepLabel onClick={() => this.setActiveStep(index)}>
-                            <Typography style={{"font-weight": "bold"}}align="left">{`Question ${index+1}`}</Typography>
+                            <Typography style={{"font-weight": "bold"}} align="left">{question.label}</Typography>
                         </StepLabel>
                         <StepContent>
-                            <Card elevation={3}>
+                            <Card elevation={3} square={false}>
                                 <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2" align="left">{question.question}</Typography>
                                     <List>
                                         <ListItem key={`a${index}`} button onClick={() => this.handleToggle(index, 0)}>
-                                            <ListItemIcon>
-                                                <Checkbox edge="start" checked={answers[index] === 0}/>
-                                            </ListItemIcon>
-                                            <ListItemText id={`a${index}`}>
-                                                <Typography>{question.a}</Typography>
-                                            </ListItemText>
+                                            <Chip 
+                                                className="option-chip"
+                                                variant={answers[index] === 0 ? "default" : "outlined"} 
+                                                avatar={<Avatar>A</Avatar>}
+                                                label={<Typography align="left" style={{"width":"90vw"}}>{question.a}</Typography>}
+                                                color="primary"
+                                            />
                                         </ListItem>
 
                                         <ListItem key={`b${index}`} button onClick={() => this.handleToggle(index, 1)}>
-                                            <ListItemIcon>
-                                                <Checkbox edge="start" checked={answers[index] === 1}/>
-                                            </ListItemIcon>
-                                            <ListItemText id={`b${index}`}>
-                                                <Typography>{question.b}</Typography>
-                                            </ListItemText>
+                                            <Chip 
+                                                className="option-chip"
+                                                variant={answers[index] === 1 ? "default" : "outlined"} 
+                                                avatar={<Avatar>B</Avatar>}
+                                                label={<Typography align="left" style={{"width":"90vw"}}>{question.b}</Typography>}
+                                                color="primary"
+                                            />
                                         </ListItem>
 
                                         <ListItem key={`c${index}`} button onClick={() => this.handleToggle(index, 2)}>
-                                            <ListItemIcon>
-                                                <Checkbox edge="start" checked={answers[index] === 2}/>
-                                            </ListItemIcon>
-                                            <ListItemText id={`c${index}`}>
-                                                <Typography>{question.c}</Typography>
-                                            </ListItemText>
+                                            <Chip 
+                                                className="option-chip"
+                                                variant={answers[index] === 2 ? "default" : "outlined"} 
+                                                avatar={<Avatar>C</Avatar>}
+                                                label={<Typography align="left" style={{"width":"90vw"}}>{question.c}</Typography>}
+                                                color="primary"
+                                            />
                                         </ListItem>
 
                                         <ListItem key={`d${index}`} button onClick={() => this.handleToggle(index, 3)}>
-                                            <ListItemIcon>
-                                                <Checkbox edge="start" checked={answers[index] === 3}/>
-                                            </ListItemIcon>
-                                            <ListItemText id={`d${index}`}>
-                                                <Typography>{question.d}</Typography>
-                                            </ListItemText>
+                                            <Chip 
+                                                className="option-chip"
+                                                variant={answers[index] === 3 ? "default" : "outlined"} 
+                                                avatar={<Avatar>D</Avatar>}
+                                                label={<Typography align="left" style={{"width":"90vw"}}>{question.d}</Typography>}
+                                                color="primary"
+                                            />
                                         </ListItem>
                                     </List>
                                 </CardContent>
                                 <CardActions disableSpacing>
                                     { answers[index] !== -1 &&
-                                        <div>
-                                            <Fab aria-label="prev" disabled={index === 0} onClick={() => this.handlePrev(index)} style={{"margin":"10px"}}>
-                                                <ArrowBackIosIcon/>
-                                            </Fab>
-                                            <Fab aria-label="next" disabled={index === questions.length - 1} onClick={() => this.handleNext(index)} style={{"margin":"10px"}}>
-                                                <ArrowForwardIosIcon/>
-                                            </Fab>
+                                        <div style={{"width":"100%"}}>
+                                            <Tooltip title="Previous Question">
+                                                <Fab aria-label="prev" disabled={index === 0} onClick={() => this.handlePrev(index)} style={{"margin":"10px", "float":"left"}}>
+                                                    <ArrowBackIosIcon/>
+                                                </Fab>
+                                            </Tooltip>
+                                            
+                                            <Tooltip title="Next Question">
+                                                <Fab aria-label="next" disabled={index === questions.length - 1} onClick={() => this.handleNext(index)} style={{"margin":"10px", "float":"right"}}>
+                                                    <ArrowForwardIosIcon/>
+                                                </Fab>
+                                            </Tooltip>
                                         </div>
                                     }
                                 </CardActions>
@@ -121,6 +131,7 @@ class Questions extends Component {
                     </Step>
                 ))}
             </Stepper>
+            </Paper>
         );
     }
 }

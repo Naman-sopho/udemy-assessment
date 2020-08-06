@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Questions from './Questions';
-import { Dialog, DialogTitle, DialogContent, Box, Typography, Fab } from '@material-ui/core';
+import { Typography, Fab } from '@material-ui/core';
 import '../App.css';
 import CheckIcon from '@material-ui/icons/Check';
 import Warning from './Warning';
@@ -103,7 +103,7 @@ class Quiz extends Component {
                     </div>
                 }
                 
-                <Fab variant="extended" onClick={() => this.handleSubmit()} style={{"margin":"10px"}}>
+                <Fab variant="extended" onClick={() => this.handleSubmit()} style={{"margin":"10px", "float": "right"}}>
                     Submit Quiz &nbsp;
                     <CheckIcon/>
                 </Fab>

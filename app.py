@@ -14,6 +14,7 @@ db = SQLAlchemy(app)
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     question = db.Column(db.Text)
+    label = db.Column(db.Text)
     a = db.Column(db.Text)
     b = db.Column(db.Text)
     c = db.Column(db.Text)
@@ -25,6 +26,7 @@ class Question(db.Model):
         return {
             'id': self.id,
             'question': self.question,
+            'label': self.label,
             'a': self.a,
             'b': self.b,
             'c': self.c,
@@ -41,7 +43,13 @@ class Question(db.Model):
 db.create_all()
 
 #populate DB
-q = Question(question="What is your name?", a="AA", b="BB", c="CC", d="d", answer=0)
+q = Question(question="Why should I be hired for the Software Developer position at Udemy?",
+             label="Why hire me?",
+             a="I have the technical skills pettaining to JavaScript, Python, React, MySQL and Git which align perfectly with the requirements of the position.", 
+             b="Past work experiences helped me polish skills like writing production level code, contributing to large code bases(open source) and handling steep learning curves.", 
+             c="The coursework I opted for at Hopkins related to OS, DBMS and OOSE, through projects, have helped build a solid foundation.", 
+             d="All of the above. :)", 
+             answer=3)
 db.session.add(q)
 db.session.commit()
 
