@@ -86,7 +86,7 @@ def getQuestions():
 @app.route('/check_answers', methods=['POST'])
 def getAnswers():
     req_data = request.get_json()['answers']
-    print(req_data)
+    
     questions = Question.query.all()
 
     score = 0
@@ -99,4 +99,4 @@ def getAnswers():
     return jsonify(score), 200
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run()
