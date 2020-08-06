@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import { Box, CircularProgress, Dialog, DialogTitle, DialogContent, Typography, DialogActions, Fab } from '@material-ui/core';
 
 class Score extends Component {
+
+    blurBackground() {
+        var element = document.getElementById("questions");
+        element.classList.add('blur');
+    }
+
     render() {
         const { score, total, showScore } = this.props;
         return(
@@ -9,6 +15,7 @@ class Score extends Component {
                 disableBackdropClick 
                 disableEscapeKeyDown
                 open={showScore}
+                onEnter={this.blurBackground}
             >
                 <DialogTitle>Score</DialogTitle>
                 <DialogContent>
