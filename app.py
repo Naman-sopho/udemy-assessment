@@ -99,4 +99,4 @@ def getAnswers():
     return jsonify(score), 200
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=False)
