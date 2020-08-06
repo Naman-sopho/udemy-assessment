@@ -45,19 +45,31 @@ db.create_all()
 #populate DB
 q = Question(question="Why should I be hired for the Software Developer position at Udemy?",
              label="Why hire me?",
-             a="I have the technical skills pettaining to JavaScript, Python, React, MySQL and Git which align perfectly with the requirements of the position.", 
-             b="Past work experiences helped me polish skills like writing production level code, contributing to large code bases(open source) and handling steep learning curves.", 
-             c="The coursework I opted for at Hopkins related to OS, DBMS and OOSE, through projects, have helped build a solid foundation.", 
+             a="I have the technical skills pertaining to Python, React, JS, MySQL and Git which align perfectly with the position requirements.", 
+             b="Past work experiences helped me polish skills like writing production level code & contributing to large code bases.", 
+             c="Coursework at Hopkins related to OS, DBMS and OOSE, through projects, have helped build a solid foundation.", 
              d="All of the above. :)", 
              answer=3)
 db.session.add(q)
 db.session.commit()
 
-q = Question(question="What is your n?", a="AA", b="BB", c="CC", d="d", answer=0)
+q = Question(question="Personal projects I have done.", 
+             label="Personal Projects!",
+             a="Bloo: Android app to efficiently schedule and route Hopkins' shuttle rides.", 
+             b="Medicine Delivery: iOS app to control a patented device through bluetooth.", 
+             c="Judging a book by its cover: A machine learning pipeline to predict a book's genre using cover image.(Published at IEEE TenSymp 2019)", 
+             d="Just showcase, not a question. :)", 
+             answer=3)
 db.session.add(q)
 db.session.commit()
 
-q = Question(question="What is your a?", a="AA", b="BB", c="CC", d="d", answer=0)
+q = Question(question="Which of the following do you think is true?",
+             label="Fun fact!",
+             a="A shot of espresso has less caffeine than a cup of coffee.", 
+             b="A gold fish has a memory span of only three seconds.", 
+             c="",
+             d="",
+             answer=0)
 db.session.add(q)
 db.session.commit()
 

@@ -88,7 +88,7 @@ class Questions extends Component {
                                             />
                                         </ListItem>
 
-                                        <ListItem key={`c${index}`} button onClick={() => this.handleToggle(index, 2)}>
+                                        {question.c.length > 0 && <ListItem key={`c${index}`} button onClick={() => this.handleToggle(index, 2)}>
                                             <Chip 
                                                 className="option-chip"
                                                 variant={answers[index] === 2 ? "default" : "outlined"} 
@@ -96,9 +96,9 @@ class Questions extends Component {
                                                 label={<Typography align="left" style={{"width":"90vw"}}>{question.c}</Typography>}
                                                 color="primary"
                                             />
-                                        </ListItem>
+                                        </ListItem>}
 
-                                        <ListItem key={`d${index}`} button onClick={() => this.handleToggle(index, 3)}>
+                                        {question.d.length > 0 && <ListItem key={`d${index}`} button onClick={() => this.handleToggle(index, 3)}>
                                             <Chip 
                                                 className="option-chip"
                                                 variant={answers[index] === 3 ? "default" : "outlined"} 
@@ -106,7 +106,7 @@ class Questions extends Component {
                                                 label={<Typography align="left" style={{"width":"90vw"}}>{question.d}</Typography>}
                                                 color="primary"
                                             />
-                                        </ListItem>
+                                        </ListItem>}
                                     </List>
                                 </CardContent>
                                 <CardActions disableSpacing>

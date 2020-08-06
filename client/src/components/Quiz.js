@@ -94,7 +94,7 @@ class Quiz extends Component {
     render() {
         return(
             <div className="quiz">
-                 <Typography gutterBottom variant="h3" color="white">Udemy Coding Challenge Quiz</Typography>
+                 <Typography gutterBottom variant="h4" color="white">Udemy Coding Challenge Quiz</Typography>
                 {   this.state.loading ? 
                     <CircularProgress/> 
                     :
