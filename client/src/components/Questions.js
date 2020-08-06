@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import {Card, CardHeader, CardContent, StepContent, StepLabel, Step, Stepper, Typography, ListItem, List, ListItemIcon, Checkbox, ListItemText, CardActions, IconButton, Snackbar } from '@material-ui/core';
+import {Card, CardContent, StepContent, StepLabel, Step, Stepper, Typography, ListItem, List, 
+        ListItemIcon, Checkbox, ListItemText, CardActions, Fab, Snackbar } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import CheckIcon from '@material-ui/icons/Check';
-import axios from 'axios';
-import MuiAlert from '@material-ui/lab/Alert';
 
 class Questions extends Component {
     constructor(props) {
@@ -12,60 +11,30 @@ class Questions extends Component {
         this.state = {
             activeStep: 0,
             answers: Array(props.questions.length).fill(-1),
-            openWarning: false,
-            toAnswer: ''
         }
+
+        this.props.updateAnswers(Array(props.questions.length).fill(-1));
     }
 
     handleToggle(index, option) {
         var answers = this.state.answers
-        answers[index] = option
+
+        // if same checkbox is clicked again
+        if (answers[index] === option) {
+            answers[index] = -1;
+        }
+        else {
+            answers[index] = option;
+        }
+
         this.setState({
             answers
-        })
+        });
+
+        this.props.updateAnswers(answers);
     }
 
     handleNext(index) {
-        if (this.state.activeStep === this.props.questions.length - 1) {
-            const questions = this.props.questions
-            const length = questions.length;
-            const answers = this.state.answers;
-            var count = 0;
-            var final = '';
-
-            for (var index = 0; index < length; index++) {
-                if (answers[index] == -1) {
-                    if (final.length == 0) {
-                        final += index+1;
-                    }
-                    else {
-                        final += `, ${index+1}`;
-                    }
-                }
-            }
-
-            if (final.length > 0) {
-                this.setState({
-                    openWarning: true,
-                    toAnswer: final.length > 1 ? `questions ${final}` : `question ${final}`
-                });
-
-                return;
-            }
-
-            var data = {};
-            var a = `Q${1}`;
-            for (var index=0; index < length; index++) {
-                data[`${questions[index].id}`] = answers[index];
-            }
-
-            axios.post('check_answers', {
-                answers: data
-            }).then((response) => {
-                this.props.openScoreModal(response.data);
-            });
-        }
-
         this.setState({
             activeStep: index + 1
         });
@@ -83,19 +52,9 @@ class Questions extends Component {
         });
     }
 
-    handleClose(event, reason) {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        this.setState({
-            openWarning: false
-        });
-    }
-
     render() {
         const questions = this.props.questions;
-        const { activeStep, answers, openWarning, toAnswer } = this.state;
+        const { activeStep, answers } = this.state;
         return(
             <Stepper activeStep={activeStep} orientation="vertical">
                 {questions.map((question, index) => (
@@ -146,22 +105,21 @@ class Questions extends Component {
                                     </List>
                                 </CardContent>
                                 <CardActions disableSpacing>
-                                    <IconButton aria-label="prev" disabled={index === 0} onClick={() => this.handlePrev(index)}>
-                                        <ArrowBackIosIcon/>
-                                    </IconButton>
-                                    <IconButton aria-label="next" onClick={() => this.handleNext(index)}>
-                                        { activeStep === questions.length - 1 ? <CheckIcon/> : <ArrowForwardIosIcon/> }
-                                    </IconButton>
+                                    { answers[index] !== -1 &&
+                                        <div>
+                                            <Fab aria-label="prev" disabled={index === 0} onClick={() => this.handlePrev(index)} style={{"margin":"10px"}}>
+                                                <ArrowBackIosIcon/>
+                                            </Fab>
+                                            <Fab aria-label="next" disabled={index === questions.length - 1} onClick={() => this.handleNext(index)} style={{"margin":"10px"}}>
+                                                <ArrowForwardIosIcon/>
+                                            </Fab>
+                                        </div>
+                                    }
                                 </CardActions>
                             </Card>
                         </StepContent>
                     </Step>
                 ))}
-                <Snackbar anchorOrigin={{vertical:'top', horizontal:'center'}} open={openWarning} autoHideDuration={6000} onClose={(event, reason) => this.handleClose(event, reason)}>
-                    <MuiAlert elevation={6} variant="filled" severity="error">
-                        {`Please answer the ${toAnswer} before submitting.`}
-                    </MuiAlert>
-                </Snackbar>
             </Stepper>
         );
     }
